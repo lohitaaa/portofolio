@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lohita Portfolio</title>
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-body: #000000;
+            --bg-card: #161616;
+            --bg-card-hover: #1f1f1f;
+            --border-color: #333333;
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --accent: #52525b;
+            --accent-glow: rgba(255, 255, 255, 0.1);
+            
+            --container-width: 1100px;
+            --header-height: 70px;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 { font-weight: 700; line-height: 1.2; letter-spacing: -0.5px; }
+        h1 { font-size: 3rem; margin-bottom: 1rem; }
+        h2 { font-size: 2rem; margin-bottom: 2rem; color: var(--text-main); }
+        h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+        p { color: var(--text-muted); margin-bottom: 1.5rem; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+
+        /* --- LAYOUT UTILITIES --- */
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
+        section { padding: 80px 0; border-bottom: 1px solid var(--border-color); }
+        section:last-of-type { border-bottom: none; }
+
+        /* --- HEADER & NAV --- */
+        header {
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background-color: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--text-main); letter-spacing: 1px; }
+        .logo span { color: var(--text-muted); }
+        nav ul { display: flex; gap: 30px; }
+        nav a { font-size: 0.95rem; color: var(--text-muted); position: relative; }
+        nav a:hover, nav a.active { color: var(--text-main); }
+        nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background-color: var(--text-main); transition: var(--transition); }
+        nav a:hover::after { width: 100%; }
+
+        /* --- HERO SECTION --- */
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: var(--header-height);
+            background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 70%);
+        }
+        .hero-content { max-width: 800px; animation: fadeIn 1s ease-out; }
+        .subtitle { text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; display: block; }
+        .hero-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 2rem; border: 2px solid var(--border-color); filter: grayscale(100%); }
+        
+        .btn { display: inline-block; padding: 12px 30px; background-color: var(--text-main); color: var(--bg-body); font-weight: 600; border-radius: 4px; margin-top: 1rem; border: none; cursor: pointer; }
+        .btn:hover { background-color: #d4d4d4; transform: translateY(-2px); }
+        .btn-outline { background-color: transparent; border: 1px solid var(--border-color); color: var(--text-main); margin-left: 10px; }
+        .btn-outline:hover { background-color: var(--bg-card); border-color: var(--text-main); }
+
+        /* --- ABOUT SECTION --- */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .skills-container { margin-top: 20px; }
+        .skill-tag { display: inline-block; padding: 8px 16px; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 50px; font-size: 0.85rem; margin-right: 10px; margin-bottom: 10px; color: var(--text-muted); transition: var(--transition); }
+        .skill-tag:hover { color: var(--text-main); border-color: var(--text-muted); background-color: var(--bg-card-hover); }
+
+        /* --- PORTFOLIO SECTION (MODIFIED) --- */
+        /* Menggunakan Flexbox untuk layout yang bebas */
+        .portfolio-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center; /* Pusatkan item */
+        }
+
+        .project-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column; /* Susun vertikal */
+        }
+
+        .project-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-color: var(--text-muted); }
+
+        /* Ukuran Default (Landscape) untuk Project 1, 2, 3 */
+        .project-card {
+            width: calc(33.333% - 20px); /* 1/3 layar (3 kolom) */
+        }
+        
+        /* Wrapper untuk Gambar dan Video */
+        .card-img-wrapper, .card-video-wrapper { width: 100%; height: 200px; overflow: hidden; position: relative; background-color: #000; }
+        .card-img, .card-video { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: transform 0.5s ease; }
+        .card-video { filter: grayscale(0%); } /* Video berwarna */
+        
+        /* UKURAN KHUSUS UNTUK PROJECT VELOCITY (1:1) */
+        /* Project 4 & 5 (Jake & Juhoon) */
+        .project-card.square-card {
+            width: calc(50% - 15px); /* Ukuran setengah layar (2 kolom) */
+        }
+
+        .project-card.square-card .card-video-wrapper {
+            height: 0;
+            padding-bottom: 100%; /* Rasio 1:1 (Tinggi sama dengan Lebar) */
+            position: relative;
+        }
+        
+        .project-card.square-card .card-video {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        /* Responsive jika layar kecil */
+        @media (max-width: 900px) {
+            .project-card { width: 100%; } /* Semua kartu memenuhi layar */
+            .project-card.square-card { width: 100%; }
+            .project-card.square-card .card-video-wrapper { height: auto; padding-bottom: 0; }
+            /* Biar tinggi video di mobile tidak terlalu besar */
+            .project-card.square-card .card-video-wrapper { height: 300px; }
+            .project-card.square-card .card-video { position: relative; }
+        }
+
+        .project-card:hover .card-img, .project-card:hover .card-video { transform: scale(1.05); }
+        .card-content { padding: 25px; flex-grow: 1; } /* Flex grow agar konten mengisi sisa ruang */
+        .card-category { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem; display: block; }
+        .card-link { display: inline-flex; align-items: center; margin-top: 15px; font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+        .card-link:hover { text-decoration: underline; }
+
+        /* --- SERVICES --- */
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .service-card { background-color: var(--bg-card); padding: 40px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center; transition: var(--transition); }
+        .service-card:hover { background-color: var(--bg-card-hover); border-color: var(--text-muted); }
+        .service-icon { font-size: 2rem; margin-bottom: 20px; display: inline-block; background: var(--bg-body); padding: 15px; border-radius: 50%; border: 1px solid var(--border-color); }
+
+        /* --- CONTACT --- */
+        .contact-wrapper { max-width: 600px; margin: 0 auto; text-align: center; }
+        form { display: flex; flex-direction: column; gap: 20px; margin-top: 30px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 15px; background-color: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 4px; font-family: inherit; outline: none; transition: var(--transition); }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--text-muted); background-color: var(--bg-card-hover); }
+
+        /* --- FOOTER --- */
+        footer { padding: 40px 0; border-top: 1px solid var(--border-color); text-align: center; font-size: 0.9rem; color: var(--text-muted); }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- RESPONSIVE GLOBAL --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.75rem; }
+            .nav-container { flex-direction: column; gap: 15px; padding: 15px; }
+            header { height: auto; position: relative; }
+            .about-grid { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">PORTFOLIO<span.</a>
+            <nav>
+                <ul>
+                    <li><a href="#about">Tentang</a></li>
+                    <li><a href="#services">Layanan</a></li>
+                    <li><a href="#portfolio">Karya</a></li>
+                    <li><a href="#contact">Kontak</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="container hero-content">
+                <img src="ak.jpeg" alt="Foto Profil" class="hero-img">
+                <span class="subtitle"> EDITOR VIDEO </span>
+                <h1>Kumpulan karya editing Saya</h1>
+                <p>Saya merupakan pribadi yang pemalas, dan saya senang mencoba hal baru. Dalam setiap proses belajar dan berkarya, saya berusaha untuk konsisten dan terbuka terhadap masukan untuk berkembang lebih baik.</p>
+                <div class="cta-group">
+                    <a href="#portfolio" class="btn">Lihat Karya</a>
+                    <a href="#contact" class="btn btn-outline">Hubungi Saya</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-text">
+                        <h2>Tentang Saya</h2>
+                        <p>Halo, saya Lohita Trisla Manori. Saya siswi SMKN 1 Nganjuk jurusan Pengembangan Gim.</p>
+                        <p>Saya menyukai editing video, thats my hobby. Dalam proses editing, saya fokus pada kerapian visual dan pemilihan efek. Saya menggunakan aplikasi Alight Motion untuk menggembangkan kreativitas saya.</p>
+                    </div>
+                    <div class="about-skills">
+                        <h3>Keahlian Teknis</h3>
+                        <div class="skills-container">
+                            <span class="skill-tag">Transisi video</span>
+                            <span class="skill-tag">Transisi slowmo</span>
+                            <span class="skill-tag">Transisi animasi</span>
+                            <span class="skill-tag">Slowmotion</span>
+                            <span class="skill-tag">PMV</span>
+                            <span class="skill-tag">Velocity edit</span>
+                            <span class="skill-tag">Fun edit</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services">
+            <div class="container">
+                <h2>Layanan</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">&#128187;</div>
+                        <h3>Velocity edit</h3>
+                        <p>Editing video yang mengatur kecepatan klip (cepat lambat) secara dinamis mengikuti beat musik.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">&#127912;</div>
+                        <h3>Transisi Animasi</h3>
+                        <p>Efek visual halus yang membuat elemen muncul dan bergerak dinamis.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">&#128200;</div>
+                        <h3>Fun edit</h3>
+                        <p>Edit buat seru seruan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio">
+            <div class="container">
+                <h2>Karya saya</h2>
+                <div class="portfolio-grid">
+                    
+                    <!-- BARIS ATAS: Project 1 & 2 (Transisi Animasi) -->
+                    <article class="project-card">
+                        <div class="card-video-wrapper">
+                            <video src="nw.video.mp4" class="card-video" controls muted loop playsinline>Browser tidak support.</video>
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category">Karya Saya</span>
+                            <h3>Transisi Animasi</h3>
+                            <p>Efek visual halus yang membuat elemen muncul dan bergerak dinamis.</p>
+                            <a href="#" class="card-link">Lihat Detail &rarr;</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="card-video-wrapper">
+                            <video src="kls.video.mp4" class="card-video" controls muted loop playsinline>Browser tidak support.</video>
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category">Karya Saya</span>
+                            <h3>Transisi Animasi</h3>
+                            <p>Efek visual halus yang membuat elemen muncul dan bergerak dinamis.</p>
+                            <a href="#" class="card-link">Lihat Detail &rarr;</a>
+                        </div>
+                    </article>
+
+                    <!-- TENGAH: Project 3 (Transisi Animasi) -->
+                    <article class="project-card">
+                        <div class="card-video-wrapper">
+                            <video src="dmb.video.mp4" class="card-video" controls muted loop playsinline>Browser tidak support.</video>
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category">Karya Saya</span>
+                            <h3>Transisi Animasi</h3>
+                            <p>Efek visual halus yang membuat elemen muncul dan bergerak dinamis.</p>
+                            <a href="#" class="card-link">Lihat Detail &rarr;</a>
+                        </div>
+                    </article>
+
+                    <!-- BARIS BAWAH: Project 4 & 5 (Velocity - Rasio 1:1) -->
+                    <!-- Class "square-card" membuatnya berukuran persegi -->
+                    <article class="project-card square-card">
+                        <div class="card-video-wrapper">
+                            <video src="jay.video.mp4" class="card-video" controls muted loop playsinline>Browser tidak support.</video>
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category">Karya Saya</span>
+                            <h3>Velocity</h3>
+                            <p>Teknik speed ramping untuk efek cepat-lambat selaras musik.</p>
+                            <a href="#" class="card-link">Lihat Detail &rarr;</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card square-card">
+                        <div class="card-video-wrapper">
+                            <video src="juhoon.video.mp4" class="card-video" controls muted loop playsinline>Browser tidak support.</video>
+                        </div>
+                        <div class="card-content">
+                            <span class="card-category">Karya Saya</span>
+                            <h3>Velocity</h3>
+                            <p>Teknik speed ramping untuk efek cepat-lambat selaras musik.</p>
+                            <a href="#" class="card-link">Lihat Detail &rarr;</a>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="container">
+                <div class="contact-wrapper">
+                    <h2>Mari Bekerja Sama</h2>
+                    <p>Punya proyek menarik atau ingin sekadar menyapa? Jangan ragu untuk menghubungi saya melalui formulir di bawah ini.</p>
+                    
+                    <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Terima kasih! Pesan Anda (simulasi) telah terkirim.');">
+                        <div class="form-group">
+                            <input type="text" placeholder="Nama Lengkap" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Alamat Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea rows="5" placeholder="Pesan Anda..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Kirim Pesan</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Lohita Trisla Manori dibuat dengan penuh effort.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
